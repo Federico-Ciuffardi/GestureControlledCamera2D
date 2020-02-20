@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://demo.jpg" type="Texture" id=1]
+[ext_resource path="res://GCC2D.tscn" type="PackedScene" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Node2D" parent="." instance=ExtResource( 2 )]
+
+[node name="69bhmO" type="Sprite" parent="."]
+texture = ExtResource( 1 )
