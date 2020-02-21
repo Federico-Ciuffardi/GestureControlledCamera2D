@@ -2,10 +2,20 @@
 A Camera2D node controlled through gestures. It's also an example of how to use the [Godot Touch Input Manager](https://github.com/Federico-Ciuffardi/Godot-Touch-Input-Manager).
 
 ## How to use
+### 1 - Seting up [Godot Touch Input Manager](https://github.com/Federico-Ciuffardi/Godot-Touch-Input-Manager)
+* Dowload the latest release from https://github.com/Federico-Ciuffardi/Godot-Touch-Input-Manager/releases
+* Extract the downloaded *.zip* file somewhere in you project
+* Locate newly extracted `InputManager.gd`, and [Autoload](https://docs.godotengine.org/en/3.1/getting_started/step_by_step/singletons_autoload.html) it.
+
+### 2 - Using GestureControlledCamera2D
 * Dowload the latest release from https://github.com/Federico-Ciuffardi/GestureControlledCamera2D/releases
 * Extract the downloaded *.zip* file somewhere in you project
-* Add the GestureControlledCamera2D node (GCC2d.gd) to the scene and make sure to set `Current` to `On`
-* Customize the [script variables](#script-variables) to your liking
+* Add the GestureControlledCamera2D node (GCC2D.tscn) to the scene and make sure to set `Current` to `On`
+* Customize the [script variables](#script-variables) to your liking (optional)
+
+There is an an example project, you can dowload it with the following git command:
+
+`git clone --recurse-submodules https://github.com/Federico-Ciuffardi/GestureControlledCamera2D.git`.
 
 ## Script variables
 
