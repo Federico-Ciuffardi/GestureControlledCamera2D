@@ -22,6 +22,10 @@ run/main_scene="res://Demo.tscn"
 
 InputManager="*res://Godot-Touch-Input-Manager/InputManager.gd"
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
