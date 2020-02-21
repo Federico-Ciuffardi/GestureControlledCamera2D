@@ -13,9 +13,7 @@ A Camera2D node controlled through gestures. It's also an example of how to use 
 * Add the GestureControlledCamera2D node (GCC2D.tscn) to the scene and make sure to set `Current` to `On`
 * Customize the [script variables](#script-variables) to your liking (optional)
 
-There is an an example project, you can dowload it with the following git command:
-
-`git clone --recurse-submodules https://github.com/Federico-Ciuffardi/GestureControlledCamera2D.git`.
+Check out the [example](https://github.com/Federico-Ciuffardi/GestureControlledCamera2D/releases/download/v1.0.0/GestureControlledCamera-Example.zip)!
 
 ## Script variables
 
