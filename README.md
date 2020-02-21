@@ -1,4 +1,6 @@
-# GestureControlledCamera2D
+<img src="https://i.imgur.com/BwjGbOV.png" align="right" />
+
+# GestureControlledCamera2D 
 A Camera2D node controlled through gestures. It's also an example of how to use the [Godot Touch Input Manager](https://github.com/Federico-Ciuffardi/Godot-Touch-Input-Manager).
 
 ## How to use
