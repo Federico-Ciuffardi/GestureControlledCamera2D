@@ -23,11 +23,29 @@ _global_script_classes=[ {
 "class": "InputEventScreenTwist",
 "language": "GDScript",
 "path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenTwist.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenDrag",
+"language": "GDScript",
+"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTap",
+"language": "GDScript",
+"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTap.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTouch",
+"language": "GDScript",
+"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 } ]
 _global_script_class_icons={
 "InputEventMultiScreenDrag": "",
 "InputEventScreenPinch": "",
-"InputEventScreenTwist": ""
+"InputEventScreenTwist": "",
+"InputEventSingleScreenDrag": "",
+"InputEventSingleScreenTap": "",
+"InputEventSingleScreenTouch": ""
 }
 
 [application]

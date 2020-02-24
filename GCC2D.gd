@@ -10,7 +10,7 @@ export(int,"disabled","single_drag","multi_drag") var movement_gesture = 2
 
 func _unhandled_input(e):
 	if (e is InputEventMultiScreenDrag and  movement_gesture == 2
-		or e is InputEventScreenDrag and  movement_gesture == 1):
+		or e is InputEventSingleScreenDrag and  movement_gesture == 1):
 		_move(e)
 	elif e is InputEventScreenTwist and rotation_gesture == 1:
 		_rotate(e)

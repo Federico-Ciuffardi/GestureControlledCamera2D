@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://GCC2D_input.gd" type="Script" id=1]
+[ext_resource path="res://GCC2D.gd" type="Script" id=1]
 
-[node name="Node2D" type="Camera2D"]
+[node name="GCC2D" type="Camera2D"]
 rotating = true
 current = true
 script = ExtResource( 1 )
