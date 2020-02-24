@@ -8,9 +8,26 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "InputEventAction",
+"class": "InputEventMultiScreenDrag",
+"language": "GDScript",
+"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventMultiScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenPinch",
+"language": "GDScript",
+"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenPinch.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenTwist",
+"language": "GDScript",
+"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenTwist.gd"
+} ]
 _global_script_class_icons={
-
+"InputEventMultiScreenDrag": "",
+"InputEventScreenPinch": "",
+"InputEventScreenTwist": ""
 }
 
 [application]
