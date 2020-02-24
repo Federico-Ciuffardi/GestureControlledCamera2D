@@ -9,35 +9,35 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "InputEventAction",
+"base": "Reference",
 "class": "InputEventMultiScreenDrag",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventMultiScreenDrag.gd"
+"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventMultiScreenDrag.gd"
 }, {
-"base": "InputEventAction",
+"base": "Reference",
 "class": "InputEventScreenPinch",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenPinch.gd"
+"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventScreenPinch.gd"
 }, {
-"base": "InputEventAction",
+"base": "Reference",
 "class": "InputEventScreenTwist",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenTwist.gd"
+"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventScreenTwist.gd"
 }, {
-"base": "InputEventAction",
+"base": "Reference",
 "class": "InputEventSingleScreenDrag",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenDrag.gd"
+"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventSingleScreenDrag.gd"
 }, {
-"base": "InputEventAction",
+"base": "Reference",
 "class": "InputEventSingleScreenTap",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTap.gd"
+"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventSingleScreenTap.gd"
 }, {
-"base": "InputEventAction",
+"base": "Reference",
 "class": "InputEventSingleScreenTouch",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
+"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventSingleScreenTouch.gd"
 } ]
 _global_script_class_icons={
 "InputEventMultiScreenDrag": "",
@@ -50,12 +50,12 @@ _global_script_class_icons={
 
 [application]
 
-config/name="GestureControlledCamera"
+config/name="GestureControlledCamera2D"
 run/main_scene="res://Demo.tscn"
 
 [autoload]
 
-InputManager="*res://Godot-Touch-Input-Manager/InputManager.gd"
+InputManager="*res://Godot-Touch-Input-Manager_v0_5_1/InputManager.gd"
 
 [input_devices]
 
