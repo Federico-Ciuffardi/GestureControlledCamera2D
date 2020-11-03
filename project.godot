@@ -12,32 +12,32 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "InputEventMultiScreenDrag",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventMultiScreenDrag.gd"
+"path": "res://Godot-Touch-Input-Manager-1.0.1/CustomInputEvents/InputEventMultiScreenDrag.gd"
 }, {
 "base": "Reference",
 "class": "InputEventScreenPinch",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventScreenPinch.gd"
+"path": "res://Godot-Touch-Input-Manager-1.0.1/CustomInputEvents/InputEventScreenPinch.gd"
 }, {
 "base": "Reference",
 "class": "InputEventScreenTwist",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventScreenTwist.gd"
+"path": "res://Godot-Touch-Input-Manager-1.0.1/CustomInputEvents/InputEventScreenTwist.gd"
 }, {
 "base": "Reference",
 "class": "InputEventSingleScreenDrag",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventSingleScreenDrag.gd"
+"path": "res://Godot-Touch-Input-Manager-1.0.1/CustomInputEvents/InputEventSingleScreenDrag.gd"
 }, {
 "base": "Reference",
 "class": "InputEventSingleScreenTap",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventSingleScreenTap.gd"
+"path": "res://Godot-Touch-Input-Manager-1.0.1/CustomInputEvents/InputEventSingleScreenTap.gd"
 }, {
 "base": "Reference",
 "class": "InputEventSingleScreenTouch",
 "language": "GDScript",
-"path": "res://Godot-Touch-Input-Manager_v0_5_1/CustomInputEvents/InputEventSingleScreenTouch.gd"
+"path": "res://Godot-Touch-Input-Manager-1.0.1/CustomInputEvents/InputEventSingleScreenTouch.gd"
 } ]
 _global_script_class_icons={
 "InputEventMultiScreenDrag": "",
@@ -55,7 +55,7 @@ run/main_scene="res://Demo.tscn"
 
 [autoload]
 
-InputManager="*res://Godot-Touch-Input-Manager_v0_5_1/InputManager.gd"
+InputManager="*res://Godot-Touch-Input-Manager-1.0.1/InputManager.gd"
 
 [input_devices]
 
