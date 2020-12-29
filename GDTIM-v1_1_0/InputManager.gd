@@ -16,7 +16,7 @@ enum Gestures {PINCH, MULTI_DRAG, TWIST}
 # Constants.
 const debug = false
 const DRAG_STARTUP_TIME = 0.02
-const TOUCH_DELAY_TIME = 0.2
+const TAP_TIME_THRESHOLD = 0.2
 
 # Control.
 var last_mouse_press = null  # Last mouse button pressed.
@@ -32,7 +32,7 @@ var drag_enabled = false
 
 ## Creates the required timers and connects their timeouts.
 func _ready():
-	_add_timer(tap_delay_timer, "on_tap_delay_timer_timeout")
+	_add_timer(tap_delay_timer, null)
 	_add_timer(drag_startup_timer, "on_drag_startup_timeout")
 
 
@@ -69,8 +69,8 @@ func _unhandled_input(event):
 				var rel1 = event.position - last_mouse_press.position
 				var rel2 = rel1 + event.relative
 				emit("twist", InputEventScreenTwist.new({"position": last_mouse_press.position,
-															 "relative": rel1.angle_to(rel2),
-															 "speed": event.speed}))
+													     "relative": rel1.angle_to(rel2),
+														 "speed": event.speed}))
 	
 	# Touch.
 	elif event is InputEventScreenTouch:
@@ -79,16 +79,19 @@ func _unhandled_input(event):
 			if (event.get_index() == 0): # First and only touch.
 				emit("single_touch", InputEventSingleScreenTouch.new(event))
 				only_touch = event
-				if tap_delay_timer.is_stopped(): tap_delay_timer.start(TOUCH_DELAY_TIME)
+				if tap_delay_timer.is_stopped(): tap_delay_timer.start(TAP_TIME_THRESHOLD)
 			else:
 				only_touch = null
 				cancel_single_drag()
 		else:
-			if event.get_index() == 0 and only_touch:
-				emit("single_touch", InputEventSingleScreenTouch.new(event))
 			touches.erase(event.get_index())
 			drags.erase(event.get_index())
 			cancel_single_drag()
+			if only_touch:
+				emit("single_touch", InputEventSingleScreenTouch.new(event))
+				if !tap_delay_timer.is_stopped(): 
+					tap_delay_timer.stop()
+					emit("single_tap", InputEventSingleScreenTap.new(only_touch))
 		
 	elif event is InputEventScreenDrag:
 		drags[event.index] = event
@@ -150,18 +153,12 @@ func identify_gesture(gesture_drags):
 	if sector == 0 or sector == 2: return Gestures.PINCH
 	if sector == 1 or sector == 3: return Gestures.TWIST
 
-
-func on_tap_delay_timer_timeout():
-	if only_touch and touches.size() == 0:
-		emit("single_tap", InputEventSingleScreenTap.new(only_touch))
-
-
 func on_drag_startup_timeout():
 	drag_enabled = !complex_gesture_in_progress() and drags.size() > 0
-
 
 # Macro to add a timer and connect it's timeout to func_name.
 func _add_timer(timer, func_name):
 	timer.one_shot = true
-	timer.connect("timeout", self, func_name)
+	if func_name:
+		timer.connect("timeout", self, func_name)
 	self.add_child(timer)
