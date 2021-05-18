@@ -9,35 +9,35 @@ export(int,"disabled","twist") var rotation_gesture = 1
 export(int,"disabled","single_drag","multi_drag") var movement_gesture = 2
 
 func set_position(p):
-	var position_limit_right
-	var position_limit_left
-	var position_limit_top
-	var position_limit_bottom
+	var position_max_limit
+	var position_min_limit
 	var camera_size = get_camera_size()*zoom
+
 	if anchor_mode == ANCHOR_MODE_FIXED_TOP_LEFT:
-		position_limit_right  = limit_right - camera_size.x
-		position_limit_left   = limit_left 
-		position_limit_top    = limit_top
-		position_limit_bottom = limit_bottom - camera_size.y
+		position_max_limit = Vector2(limit_right, limit_bottom) - camera_size
+		position_min_limit = Vector2(limit_left , limit_top)
 	elif anchor_mode ==  ANCHOR_MODE_DRAG_CENTER:
-		position_limit_right  = limit_right  - camera_size.x/2
-		position_limit_left   = limit_left   + camera_size.x/2
-		position_limit_top    = limit_top    + camera_size.y/2
-		position_limit_bottom = limit_bottom - camera_size.y/2
-	if(position_limit_right < position_limit_left or position_limit_bottom < position_limit_top):
+		position_max_limit = Vector2(limit_right, limit_bottom) - camera_size/2
+		position_min_limit = Vector2(limit_left , limit_top) + camera_size
+  
+	if(position_max_limit < position_min_limit):
 		return false
+
 	position = p
-	if(position.x > position_limit_right):
-		position.x = position_limit_right
-	if(position.x < position_limit_left):
-		position.x = position_limit_left
-	if(position.y < position_limit_top):
-		position.y = position_limit_top
-	if(position.y > position_limit_bottom):
-		position.y = position_limit_bottom
-	print(position)
-	print("horizontal limits: ", position_limit_left," , ", position_limit_right )
-	print("vertical limits: ", position_limit_top," , ", position_limit_bottom )
+
+	if(position.x > position_max_limit.x):
+		position.x = position_max_limit.x
+	if(position.x < position_min_limit.x):
+		position.x = position_min_limit.x
+	if(position.y > position_max_limit.y):
+		position.y = position_max_limit.y
+	if(position.y < position_min_limit.y):
+		position.y = position_min_limit.y
+
+	# print(position)
+	# print("max limits: ", position_max_limit )
+	# print("min limits: ", position_min_limit)
+
 	return true
 
 
