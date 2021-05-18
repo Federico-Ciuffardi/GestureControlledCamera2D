@@ -9,3 +9,8 @@
 texture = ExtResource( 1 )
 
 [node name="GCC2D" parent="." instance=ExtResource( 2 )]
+anchor_mode = 0
+limit_left = -1920
+limit_top = -1080
+limit_right = 1920
+limit_bottom = 1080
