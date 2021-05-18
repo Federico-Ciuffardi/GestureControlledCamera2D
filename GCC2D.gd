@@ -8,6 +8,39 @@ export(int,"disabled","pinch") var zoom_gesture = 1
 export(int,"disabled","twist") var rotation_gesture = 1
 export(int,"disabled","single_drag","multi_drag") var movement_gesture = 2
 
+func set_position(p):
+	var position_limit_right
+	var position_limit_left
+	var position_limit_top
+	var position_limit_bottom
+	var camera_size = get_camera_size()*zoom
+	if anchor_mode == ANCHOR_MODE_FIXED_TOP_LEFT:
+		position_limit_right  = limit_right - camera_size.x
+		position_limit_left   = limit_left 
+		position_limit_top    = limit_top
+		position_limit_bottom = limit_bottom - camera_size.y
+	elif anchor_mode ==  ANCHOR_MODE_DRAG_CENTER:
+		position_limit_right  = limit_right  - camera_size.x/2
+		position_limit_left   = limit_left   + camera_size.x/2
+		position_limit_top    = limit_top    + camera_size.y/2
+		position_limit_bottom = limit_bottom - camera_size.y/2
+	if(position_limit_right < position_limit_left or position_limit_bottom < position_limit_top):
+		return false
+	position = p
+	if(position.x > position_limit_right):
+		position.x = position_limit_right
+	if(position.x < position_limit_left):
+		position.x = position_limit_left
+	if(position.y < position_limit_top):
+		position.y = position_limit_top
+	if(position.y > position_limit_bottom):
+		position.y = position_limit_bottom
+	print(position)
+	print("horizontal limits: ", position_limit_left," , ", position_limit_right )
+	print("vertical limits: ", position_limit_top," , ", position_limit_bottom )
+	return true
+
+
 func _unhandled_input(e):
 	if (e is InputEventMultiScreenDrag and  movement_gesture == 2
 		or e is InputEventSingleScreenDrag and  movement_gesture == 1):
@@ -24,8 +57,8 @@ func camera2global(position):
 	return camera_center + (from_camera_center_pos*zoom).rotated(rotation)
 
 func _move(event):
-	position -= (event.relative*zoom).rotated(rotation)
-	
+	set_position(position - (event.relative*zoom).rotated(rotation))
+
 func _zoom(event):
 	var li = event.distance
 	var lf = event.distance + event.relative
@@ -43,13 +76,14 @@ func _zoom(event):
 		zd = zf - zi
 	
 	var from_camera_center_pos = event.position - get_camera_center_offset()
-	position -= (from_camera_center_pos*zd).rotated(rotation)
 	zoom = zf*Vector2.ONE
+	if(!set_position(position - (from_camera_center_pos*zd).rotated(rotation))):
+		zoom = zi*Vector2.ONE
 
 func _rotate(event):
 	var fccp = (event.position - get_camera_center_offset()) # from_camera_center_pos = fccp
 	var fccp_op_rot =  -fccp.rotated(event.relative)
-	position -= ((fccp_op_rot + fccp)*zoom).rotated(rotation-event.relative)
+	set_position(position - ((fccp_op_rot + fccp)*zoom).rotated(rotation-event.relative))
 	rotation -= event.relative
 
 func get_camera_center_offset():
