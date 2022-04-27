@@ -1,4 +1,7 @@
+# warning-ignore-all:return_value_discarded
 # warning-ignore-all:unused_signal
+
+# VERSION: 2.0.0
 
 extends Node
 
@@ -144,6 +147,11 @@ func _handle_mouse_motion(event : InputEventMouseMotion) -> void:
 		_emit("twist", twist_event)
 
 func _handle_screen_touch(event : InputEventScreenTouch) -> void:
+
+	# ignore orphaned touch release events
+	if !event.pressed and not event.index in raw_gesture.presses:
+		return
+
 	raw_gesture._update_screen_touch(event)
 	_emit("raw_gesture", raw_gesture)
 	var index : int = event.index
@@ -204,20 +212,20 @@ func _handle_action(event : InputEvent) -> void:
 			_mouse_event = Gesture.SINGLE_DRAG
 		else:
 			_mouse_event = Gesture.NONE
-	elif event.is_action_pressed("multi_touch") or event.is_action_released("multi_touch"):
+	elif InputMap.has_action("multi_touch") and (event.is_action_pressed("multi_touch") or event.is_action_released("multi_touch")):
 		_emit("touch", _native_touch_event(0, get_viewport().get_mouse_position(), event.pressed))
 		_emit("touch", _native_touch_event(1, get_viewport().get_mouse_position(), event.pressed))
 		if event.pressed:
 			_mouse_event = Gesture.MULTI_DRAG
 		else:
 			_mouse_event = Gesture.NONE
-	elif event.is_action_pressed("twist") or event.is_action_released("twist"):
+	elif InputMap.has_action("twist") and (event.is_action_pressed("twist") or event.is_action_released("twist")):
 		_mouse_event_press_position = get_viewport().get_mouse_position()
 		if event.pressed:
 			_mouse_event = Gesture.TWIST
 		else:
 			_mouse_event = Gesture.NONE
-	elif event.is_action_pressed("pinch_outward") or event.is_action_pressed("pinch_inward"):
+	elif (InputMap.has_action("pinch_outward") and event.is_action_pressed("pinch_outward")) or (InputMap.has_action("pinch_inward") and event.is_action_pressed("pinch_inward")):
 		var pinch_event = InputEventScreenPinch.new()
 		pinch_event.fingers = 2 
 		pinch_event.position = get_viewport().get_mouse_position()
@@ -231,11 +239,11 @@ func _handle_action(event : InputEvent) -> void:
 		var is_single_swipe : bool 
 		for swipe in swipe2dir:
 			var dir = swipe2dir[swipe]
-			if event.is_action_pressed("single_"+swipe):
+			if InputMap.has_action("single_"+swipe) and event.is_action_pressed("single_"+swipe):
 				swipe_emulation_dir  = dir
 				is_single_swipe = true
 				break
-			if event.is_action_pressed("multi_"+swipe):
+			if InputMap.has_action("multi_"+swipe) and event.is_action_pressed("multi_"+swipe):
 				swipe_emulation_dir  = dir
 				is_single_swipe = false
 				break
@@ -329,10 +337,6 @@ func _set_default_action(action : String, event : InputEvent) -> void:
 	if !InputMap.has_action(action):
 		InputMap.add_action(action)
 		InputMap.action_add_event(action,event)
-
-# Check if the action is pressed
-func _action_pressed(event : InputEvent, action : String) -> bool:
-	return InputMap.has_action(action) and event.is_action_pressed(action)
 
 # Macro to add a timer and connect it's timeout to func_name
 func _add_timer(timer : Timer, func_name : String) -> void:
