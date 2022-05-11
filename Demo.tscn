@@ -10,3 +10,4 @@ texture = ExtResource( 1 )
 
 [node name="GCC2D" parent="." instance=ExtResource( 2 )]
 anchor_mode = 0
+movement_gesture = 2
