@@ -52,7 +52,7 @@ func _unhandled_input(e):
 
 # Given a a position on the camera returns to the corresponding global position
 func camera2global(position):
-	var camera_center = global_position + position
+	var camera_center = global_position
 	var from_camera_center_pos = position - get_camera_center_offset()
 	return camera_center + (from_camera_center_pos*zoom).rotated(rotation)
 
