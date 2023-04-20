@@ -3,7 +3,7 @@
 [ext_resource path="res://GCC2D.gd" type="Script" id=1]
 
 [node name="GCC2D" type="Camera2D"]
-rotating = true
+ignore_rotation =true # reversed "rotating" for Camera2D
 current = true
 script = ExtResource( 1 )
 movement_gesture = 1

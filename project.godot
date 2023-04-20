@@ -6,92 +6,21 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "Reference",
-"class": "InputEventMultiScreenDrag",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventMultiScreenDrag.gd"
-}, {
-"base": "Reference",
-"class": "InputEventMultiScreenLongPress",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventMultiScreenLongPress.gd"
-}, {
-"base": "Reference",
-"class": "InputEventMultiScreenSwipe",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventMultiScreenSwipe.gd"
-}, {
-"base": "Reference",
-"class": "InputEventMultiScreenTap",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventMultiScreenTap.gd"
-}, {
-"base": "Reference",
-"class": "InputEventScreenPinch",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventScreenPinch.gd"
-}, {
-"base": "Reference",
-"class": "InputEventScreenTwist",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventScreenTwist.gd"
-}, {
-"base": "Reference",
-"class": "InputEventSingleScreenDrag",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventSingleScreenDrag.gd"
-}, {
-"base": "Reference",
-"class": "InputEventSingleScreenLongPress",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventSingleScreenLongPress.gd"
-}, {
-"base": "Reference",
-"class": "InputEventSingleScreenSwipe",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventSingleScreenSwipe.gd"
-}, {
-"base": "Reference",
-"class": "InputEventSingleScreenTap",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventSingleScreenTap.gd"
-}, {
-"base": "Reference",
-"class": "InputEventSingleScreenTouch",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/CustomInputEvents/InputEventSingleScreenTouch.gd"
-}, {
-"base": "InputEventAction",
-"class": "RawGesture",
-"language": "GDScript",
-"path": "res://GDTIM-v2_1_2/RawGesture.gd"
-} ]
-_global_script_class_icons={
-"InputEventMultiScreenDrag": "",
-"InputEventMultiScreenLongPress": "",
-"InputEventMultiScreenSwipe": "",
-"InputEventMultiScreenTap": "",
-"InputEventScreenPinch": "",
-"InputEventScreenTwist": "",
-"InputEventSingleScreenDrag": "",
-"InputEventSingleScreenLongPress": "",
-"InputEventSingleScreenSwipe": "",
-"InputEventSingleScreenTap": "",
-"InputEventSingleScreenTouch": "",
-"RawGesture": ""
-}
+config_version=5
 
 [application]
 
 config/name="GestureControlledCamera2D"
 run/main_scene="res://Demo.tscn"
+config/features=PackedStringArray("4.0")
 
 [autoload]
 
-InputManager="*res://GDTIM-v2_1_2/InputManager.gd"
+InputManager="*res://GDTIM-vgodot4support/InputManager.gd"
+
+[debug]
+
+gdscript/warnings/native_method_override=1
 
 [input_devices]
 
@@ -99,4 +28,5 @@ pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_environment="res://default_env.tres"
