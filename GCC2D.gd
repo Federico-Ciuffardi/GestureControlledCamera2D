@@ -12,7 +12,7 @@ enum MOVEMENT_GESTURE { DISABLED, SINGLE_DRAG, MULTI_DRAG }
 @export var rotation_gesture : ROTATE_GESTURE = ROTATE_GESTURE.TWIST
 @export var movement_gesture : MOVEMENT_GESTURE = MOVEMENT_GESTURE.SINGLE_DRAG
 
-func set_position(p):
+func set_camera_position(p):
 	var position_max_limit
 	var position_min_limit
 	var camera_size = get_camera_size()*zoom
@@ -54,14 +54,19 @@ func _unhandled_input(e):
 	elif e is InputEventScreenPinch and zoom_gesture == 1:
 		_zoom(e)
 
+func _get_rotation():
+	if (ignore_rotation):
+		return 0 
+	return rotation
+
 # Given a a position on the camera returns to the corresponding global position
 func camera2global(position):
 	var camera_center = global_position
 	var from_camera_center_pos = position - get_camera_center_offset()
-	return camera_center + (from_camera_center_pos/zoom).rotated(rotation)
+	return camera_center + (from_camera_center_pos/zoom).rotated(_get_rotation())
 
 func _move(event):
-	set_position(position - (event.relative/zoom).rotated(rotation))
+	set_camera_position(position - (event.relative/zoom).rotated(_get_rotation()))
 
 func _zoom(event):
 	var li = event.distance
@@ -87,13 +92,13 @@ func _zoom(event):
 	var p = event.position 
 	var v = 0.5 * get_camera_size()
 	var next_cam_pos = position + ((p - v) / zi) + ((v - p) / zf)
-	if(!set_position(next_cam_pos)):
+	if(!set_camera_position(next_cam_pos)):
 		zoom = zf*Vector2.ONE
 
 func _rotate(event):
 	var fccp = (event.position - get_camera_center_offset()) # from_camera_center_pos = fccp
 	var fccp_op_rot =  -fccp.rotated(event.relative)
-	set_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative))
+	set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative))
 	rotation -= event.relative
 
 func get_camera_center_offset():
