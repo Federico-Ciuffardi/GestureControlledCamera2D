@@ -15,7 +15,7 @@ enum MOVEMENT_GESTURE { DISABLED, SINGLE_DRAG, MULTI_DRAG }
 func set_camera_position(p):
 	var position_max_limit
 	var position_min_limit
-	var camera_size = get_camera_size()*zoom
+	var camera_size = get_camera_size()/zoom
 
 	if anchor_mode == ANCHOR_MODE_FIXED_TOP_LEFT:
 		position_max_limit = Vector2(limit_right, limit_bottom) - camera_size
@@ -70,7 +70,7 @@ func _move(event):
 
 func _zoom(event):
 	var li = event.distance
-	var lf = event.distance + event.relative *-1
+	var lf = event.distance - event.relative
 	var zi = zoom.x
 	
 	var zf = (li*zi)/lf
@@ -87,13 +87,9 @@ func _zoom(event):
 	var from_camera_center_pos = event.position - get_camera_center_offset()
 	zoom = zf*Vector2.ONE
 
-	# See:
-	# https://godotengine.org/qa/25983/camera2d-zoom-position-towards-the-mouse
-	var p = event.position 
-	var v = 0.5 * get_camera_size()
-	var next_cam_pos = position + ((p - v) / zi) + ((v - p) / zf)
-	if(!set_camera_position(next_cam_pos)):
-		zoom = zf*Vector2.ONE
+	var relative = (from_camera_center_pos*zd) / (zi*zf) 
+	if(!set_camera_position(position + relative.rotated(rotation))):
+		zoom = zi*Vector2.ONE
 
 func _rotate(event):
 	var fccp = (event.position - get_camera_center_offset()) # from_camera_center_pos = fccp
