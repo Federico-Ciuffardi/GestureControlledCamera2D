@@ -38,10 +38,6 @@ func set_camera_position(p):
 	if(position.y < position_min_limit.y):
 		position.y = position_min_limit.y
 
-	# print(position)
-	# print("max limits: ", position_max_limit )
-	# print("min limits: ", position_min_limit)
-
 	return true
 
 
@@ -71,10 +67,9 @@ func _move(event):
 func _zoom(event):
 	var li = event.distance
 	var lf = event.distance - event.relative
+
 	var zi = zoom.x
-	
 	var zf = (li*zi)/lf
-	if zf == 0: return
 	var zd = zf - zi
 	
 	if zf <= MIN_ZOOM and sign(zd) < 0:
@@ -92,7 +87,7 @@ func _zoom(event):
 		zoom = zi*Vector2.ONE
 
 func _rotate(event):
-	var fccp = (event.position - get_camera_center_offset()) # from_camera_center_pos = fccp
+	var fccp = (event.position - get_camera_center_offset())
 	var fccp_op_rot =  -fccp.rotated(event.relative)
 	set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative))
 	rotation -= event.relative
