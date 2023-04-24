@@ -83,10 +83,12 @@ func _zoom(event):
 	zoom = zf*Vector2.ONE
 
 	var relative = (from_camera_center_pos*zd) / (zi*zf) 
-	if(!set_camera_position(position + relative.rotated(rotation))):
+	if(!set_camera_position(position + relative.rotated(_get_rotation()))):
 		zoom = zi*Vector2.ONE
 
 func _rotate(event):
+	if ignore_rotation:
+		return
 	var fccp = (event.position - get_camera_center_offset())
 	var fccp_op_rot =  -fccp.rotated(event.relative)
 	set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative))
