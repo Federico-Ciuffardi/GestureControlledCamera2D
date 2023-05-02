@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.0")
 
 [autoload]
 
-InputManager="*res://GDTIM-vgodot4support/InputManager.gd"
+InputManager="*res://GDTIM-4.x-v2_1_2/InputManager.gd"
 
 [input_devices]
 
