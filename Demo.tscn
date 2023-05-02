@@ -10,3 +10,7 @@ texture = ExtResource("1_dy1uf")
 
 [node name="GCC2D" parent="." instance=ExtResource("2")]
 ignore_rotation = false
+limit_left = -1250
+limit_top = -600
+limit_right = 1250
+limit_bottom = 600

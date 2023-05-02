@@ -12,31 +12,56 @@ enum MOVEMENT_GESTURE { DISABLED, SINGLE_DRAG, MULTI_DRAG }
 @export var rotation_gesture : ROTATE_GESTURE = ROTATE_GESTURE.TWIST
 @export var movement_gesture : MOVEMENT_GESTURE = MOVEMENT_GESTURE.SINGLE_DRAG
 
-func set_camera_position(p):
-	var position_max_limit
-	var position_min_limit
+var effective_limit_left = -10000000
+var effective_limit_right = 10000000
+var effective_limit_top = -10000000
+var effective_limit_bottom = 10000000
+
+func set_camera_position(p, new_rotation = rotation):
+	var camera_limits;
 	var camera_size = get_camera_size()/zoom
 
 	if anchor_mode == ANCHOR_MODE_FIXED_TOP_LEFT:
-		position_max_limit = Vector2(limit_right, limit_bottom) - camera_size
-		position_min_limit = Vector2(limit_left , limit_top)
+		camera_limits = [
+			Vector2(),
+			Vector2(camera_size.x, 0),            
+			Vector2(0,             camera_size.y),
+			Vector2(camera_size.x, camera_size.y),
+			Vector2(camera_size.x, 0),            
+		]
+
 	elif anchor_mode ==  ANCHOR_MODE_DRAG_CENTER:
-		position_max_limit = Vector2(limit_right, limit_bottom) - camera_size/2
-		position_min_limit = Vector2(limit_left , limit_top) + camera_size
-  
-	if(position_max_limit < position_min_limit):
-		return false
+		camera_limits = [
+			Vector2(-camera_size.x/2, -camera_size.y/2),
+			Vector2( camera_size.x/2, -camera_size.y/2),
+			Vector2( camera_size.x/2,  camera_size.y/2),
+			Vector2(-camera_size.x/2,  camera_size.y/2),
+		]
+
+	for i in camera_limits.size():
+		camera_limits[i] = camera_limits[i].rotated(new_rotation);
+
+	for camera_limit in camera_limits:
+		if(p.x > effective_limit_right - camera_limit.x):
+			p.x = effective_limit_right - camera_limit.x
+
+		if(p.y > effective_limit_bottom - camera_limit.y):
+			p.y = effective_limit_bottom - camera_limit.y
+
+		if(p.x < effective_limit_left - camera_limit.x):
+			p.x = effective_limit_left - camera_limit.x
+
+		if(p.y < effective_limit_top - camera_limit.y):
+			p.y = effective_limit_top - camera_limit.y
+
+	for camera_limit in camera_limits:
+		if((p.x > effective_limit_right - camera_limit.x) or 
+		(p.y > effective_limit_bottom - camera_limit.y) or
+		(p.x < effective_limit_left - camera_limit.x) or
+		(p.y < effective_limit_top - camera_limit.y)):
+			return false;
 
 	position = p
-
-	if(position.x > position_max_limit.x):
-		position.x = position_max_limit.x
-	if(position.x < position_min_limit.x):
-		position.x = position_min_limit.x
-	if(position.y > position_max_limit.y):
-		position.y = position_max_limit.y
-	if(position.y < position_min_limit.y):
-		position.y = position_min_limit.y
 
 	return true
 
@@ -50,19 +75,14 @@ func _unhandled_input(e):
 	elif e is InputEventScreenPinch and zoom_gesture == 1:
 		_zoom(e)
 
-func _get_rotation():
-	if (ignore_rotation):
-		return 0 
-	return rotation
-
 # Given a a position on the camera returns to the corresponding global position
 func camera2global(position):
 	var camera_center = global_position
 	var from_camera_center_pos = position - get_camera_center_offset()
-	return camera_center + (from_camera_center_pos/zoom).rotated(_get_rotation())
+	return camera_center + (from_camera_center_pos/zoom).rotated(rotation)
 
 func _move(event):
-	set_camera_position(position - (event.relative/zoom).rotated(_get_rotation()))
+	set_camera_position(position - (event.relative/zoom).rotated(rotation))
 
 func _zoom(event):
 	var li = event.distance
@@ -79,19 +99,22 @@ func _zoom(event):
 		zf = MAX_ZOOM
 		zd = zf - zi
 	
-	var from_camera_center_pos = event.position - get_camera_center_offset()
 	zoom = zf*Vector2.ONE
 
+	var from_camera_center_pos = event.position - get_camera_center_offset()
 	var relative = (from_camera_center_pos*zd) / (zi*zf) 
-	if(!set_camera_position(position + relative.rotated(_get_rotation()))):
+	if(!set_camera_position(position + relative.rotated(rotation))):
 		zoom = zi*Vector2.ONE
 
 func _rotate(event):
-	if ignore_rotation:
+	if ignore_rotation: return
+
+	var fccp = event.position - get_camera_center_offset()
+	var fccp_op_rot = -fccp.rotated(event.relative)
+	var new_rotation = rotation - event.relative
+	if(!set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative), new_rotation)):
 		return
-	var fccp = (event.position - get_camera_center_offset())
-	var fccp_op_rot =  -fccp.rotated(event.relative)
-	set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative))
+
 	rotation -= event.relative
 
 func get_camera_center_offset():
@@ -102,3 +125,22 @@ func get_camera_center_offset():
 
 func get_camera_size():
 	return get_viewport().get_visible_rect().size
+
+func _ready():
+	var limit_left_tmp = effective_limit_left
+	effective_limit_left = limit_left 
+	limit_left = limit_left_tmp
+
+	var limit_right_tmp = effective_limit_right
+	effective_limit_right = limit_right 
+	limit_right = limit_right_tmp
+	
+	var limit_top_tmp = effective_limit_top
+	effective_limit_top = limit_top
+	limit_top = limit_top_tmp
+
+	var limit_bottom_tmp = effective_limit_bottom
+	effective_limit_bottom = limit_bottom 
+	limit_bottom = limit_bottom_tmp
+	
+	set_camera_position(position)
