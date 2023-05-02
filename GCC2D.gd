@@ -17,7 +17,7 @@ var effective_limit_right = 10000000
 var effective_limit_top = -10000000
 var effective_limit_bottom = 10000000
 
-func set_camera_position(p, new_rotation = rotation):
+func set_camera_position(p):
 	var camera_limits;
 	var camera_size = get_camera_size()/zoom
 
@@ -39,7 +39,7 @@ func set_camera_position(p, new_rotation = rotation):
 		]
 
 	for i in camera_limits.size():
-		camera_limits[i] = camera_limits[i].rotated(new_rotation);
+		camera_limits[i] = camera_limits[i].rotated(rotation);
 
 	for camera_limit in camera_limits:
 		if(p.x > effective_limit_right - camera_limit.x):
@@ -111,11 +111,11 @@ func _rotate(event):
 
 	var fccp = event.position - get_camera_center_offset()
 	var fccp_op_rot = -fccp.rotated(event.relative)
-	var new_rotation = rotation - event.relative
-	if(!set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative), new_rotation)):
-		return
 
 	rotation -= event.relative
+
+	if(!set_camera_position(position - ((fccp_op_rot + fccp)/zoom).rotated(rotation-event.relative))):
+		rotation += event.relative
 
 func get_camera_center_offset():
 	if anchor_mode == ANCHOR_MODE_FIXED_TOP_LEFT:
